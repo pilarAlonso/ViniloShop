@@ -1,7 +1,5 @@
 package com.demodisco.demodisco.Entities;
 
-import org.hibernate.annotations.Cascade;
-
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -19,19 +17,24 @@ public class Band {
 	@NotNull
 	@Min(1)
 	private int members;
-	@OneToMany (fetch = FetchType.LAZY, cascade=javax.persistence.CascadeType.REMOVE)
+	@OneToMany(fetch = FetchType.LAZY, cascade = javax.persistence.CascadeType.REMOVE)
 	private List<Vinilo> viniloList;
 
 	public Band() {
 	}
-	public List<Vinilo> mostSold(){
-		Comparator<Vinilo> comparador1= (x, y) -> Integer.compare(y.getClientSet().size(), x.getClientSet().size());
-		return viniloList.stream()
-								 .sorted(comparador1)
-				                  .collect(Collectors.toList());
 
+	public List<Vinilo> mostSold() {
+
+		Comparator<Vinilo> comparador1 = (x, y) -> Integer.compare(y.getClientSet().size(), x.getClientSet().size());
+
+		return viniloList.stream()
+
+						 .sorted(comparador1)
+
+						 .collect(Collectors.toList());
 
 	}
+
 	public Long getId() {
 		return id;
 	}
