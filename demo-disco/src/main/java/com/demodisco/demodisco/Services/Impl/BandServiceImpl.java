@@ -2,6 +2,7 @@ package com.demodisco.demodisco.Services.Impl;
 
 import com.demodisco.demodisco.Entities.Band;
 import com.demodisco.demodisco.Exceptions.BadRequest;
+import com.demodisco.demodisco.Exceptions.ConflictException;
 import com.demodisco.demodisco.Exceptions.NotFound;
 import com.demodisco.demodisco.Repositories.BandRepository;
 import com.demodisco.demodisco.Services.BandService;
@@ -19,10 +20,10 @@ public class BandServiceImpl implements BandService {
 	}
 
 	@Override
-	public Band save(Band band)throws BadRequest {
+	public Band save(Band band)throws ConflictException {
 		Optional<Band> bandOptional = bandRepository.findById(band.getId());
 		if (bandOptional.isPresent())
-			throw new BadRequest();
+			throw new ConflictException();
 		Band band1 = new Band();
         band1.setId(band.getId());
 		band1.setName(band.getName());
@@ -54,8 +55,8 @@ public class BandServiceImpl implements BandService {
 	}
 
 	@Override
-	public Band update(Band band, long id) throws NotFound {
-		if (!bandRepository.findById(id).isPresent()) throw new NotFound();
+	public Band update(Band band, long id) throws ConflictException {
+		if (!bandRepository.findById(id).isPresent()) throw new ConflictException();
 
 		return bandRepository.save(band);
 	}

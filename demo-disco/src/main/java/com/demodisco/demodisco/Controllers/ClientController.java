@@ -2,6 +2,7 @@ package com.demodisco.demodisco.Controllers;
 
 import com.demodisco.demodisco.Entities.Client;
 import com.demodisco.demodisco.Exceptions.BadRequest;
+import com.demodisco.demodisco.Exceptions.ConflictException;
 import com.demodisco.demodisco.Exceptions.NotFound;
 import com.demodisco.demodisco.Services.ClientService;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +20,7 @@ public class ClientController {
 	}
 
 	@PutMapping("/clients/{id}")
-	public Client update(@Valid @RequestBody Client client, @PathVariable int id) throws NotFound, BadRequest {
+	public Client update(@Valid @RequestBody Client client, @PathVariable int id) throws NotFound, BadRequest, ConflictException {
 		return clientService.update(client, id);
 
 	}
@@ -49,7 +50,7 @@ public class ClientController {
 	}
 
 	@PostMapping("/clients")
-	public Client save(@Valid @RequestBody Client client) throws BadRequest {
+	public Client save(@Valid @RequestBody Client client) throws BadRequest, ConflictException {
 		return clientService.save(client);
 	}
 

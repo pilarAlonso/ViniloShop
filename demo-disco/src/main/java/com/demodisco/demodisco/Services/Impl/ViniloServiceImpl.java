@@ -3,6 +3,7 @@ package com.demodisco.demodisco.Services.Impl;
 import com.demodisco.demodisco.Entities.Size;
 import com.demodisco.demodisco.Entities.Vinilo;
 import com.demodisco.demodisco.Exceptions.BadRequest;
+import com.demodisco.demodisco.Exceptions.ConflictException;
 import com.demodisco.demodisco.Exceptions.NotFound;
 import com.demodisco.demodisco.Repositories.ViniloRepository;
 import com.demodisco.demodisco.Services.ViniloService;
@@ -22,10 +23,10 @@ public class ViniloServiceImpl implements ViniloService {
 	}
 
 	@Override
-	public Vinilo save(Vinilo vinilo) throws BadRequest {
+	public Vinilo save(Vinilo vinilo) throws ConflictException {
 		Optional<Vinilo> viniloOptional = viniloRepository.findById(vinilo.getId());
 		if (viniloOptional.isPresent())
-			throw new BadRequest();
+			throw new ConflictException();
 		Vinilo vinilo1 = new Vinilo();
 
 		vinilo1.setName(vinilo.getName());
@@ -46,8 +47,8 @@ public class ViniloServiceImpl implements ViniloService {
 	}
 
 	@Override
-	public Vinilo update(Vinilo vinilo, long id) throws NotFound {
-		if (!viniloRepository.findById(id).isPresent()) throw new NotFound();
+	public Vinilo update(Vinilo vinilo, long id) throws ConflictException {
+		if (!viniloRepository.findById(id).isPresent()) throw new ConflictException();
 
 		return viniloRepository.save(vinilo);
 	}

@@ -2,6 +2,7 @@ package com.demodisco.demodisco.Controllers;
 
 import com.demodisco.demodisco.Entities.Band;
 import com.demodisco.demodisco.Exceptions.BadRequest;
+import com.demodisco.demodisco.Exceptions.ConflictException;
 import com.demodisco.demodisco.Exceptions.NotFound;
 import com.demodisco.demodisco.Models.BandModelSnapshot;
 import com.demodisco.demodisco.Services.BandModelSnapshotService;
@@ -23,7 +24,7 @@ public class BandController {
 	}
 
 	@PostMapping("/bands")
-	public Band save(@Valid @RequestBody Band band) throws BadRequest {
+	public Band save(@Valid @RequestBody Band band) throws BadRequest, ConflictException {
 		return bandService.save(band);
 	}
 
@@ -33,7 +34,7 @@ public class BandController {
 	}
 
 	@PutMapping("/bands/{id}")
-	public Band update(@Valid @RequestBody Band band, @PathVariable int id) throws NotFound, BadRequest {
+	public Band update(@Valid @RequestBody Band band, @PathVariable int id) throws NotFound, BadRequest, ConflictException {
 		return bandService.update(band, id);
 
 	}

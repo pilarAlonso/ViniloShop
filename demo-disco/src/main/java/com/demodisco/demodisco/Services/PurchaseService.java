@@ -3,6 +3,7 @@ package com.demodisco.demodisco.Services;
 import com.demodisco.demodisco.Entities.Purchase;
 import com.demodisco.demodisco.Entities.Vinilo;
 import com.demodisco.demodisco.Exceptions.BadRequest;
+import com.demodisco.demodisco.Exceptions.ConflictException;
 import com.demodisco.demodisco.Exceptions.NotFound;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +14,7 @@ import java.util.Optional;
 public interface PurchaseService {
 	List<Purchase> findAll() throws NotFound;
 	void delete(long id) throws NotFound;
-	Purchase save(Purchase purchase) throws BadRequest;
+	Purchase save(Purchase purchase) throws BadRequest, ConflictException;
 	Optional<Purchase> findOne(long id) throws NotFound;
-	Purchase update(Purchase purchase, long id) throws NotFound;
+	Purchase update(Purchase purchase, long id) throws NotFound, ConflictException;
 }

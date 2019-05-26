@@ -2,6 +2,7 @@ package com.demodisco.demodisco.Services.Impl;
 
 import com.demodisco.demodisco.Entities.Purchase;
 import com.demodisco.demodisco.Exceptions.BadRequest;
+import com.demodisco.demodisco.Exceptions.ConflictException;
 import com.demodisco.demodisco.Exceptions.NotFound;
 import com.demodisco.demodisco.Repositories.PurchaseRepository;
 import com.demodisco.demodisco.Services.PurchaseService;
@@ -33,10 +34,10 @@ public class PurchaseServiceImpl implements PurchaseService {
 	}
 
 	@Override
-	public Purchase save(Purchase purchase) throws BadRequest {
+	public Purchase save(Purchase purchase) throws ConflictException {
 		Optional<Purchase> purchaseOptional = purchaseRepository.findById(purchase.getPurchaseOrder());
 		if (purchaseOptional.isPresent())
-			throw new BadRequest();
+			throw new ConflictException();
 		Purchase purchase1 = new Purchase();
 
 		purchase1.setClient(purchase.getClient());
@@ -54,8 +55,8 @@ public class PurchaseServiceImpl implements PurchaseService {
 	}
 
 	@Override
-	public Purchase update(Purchase purchase, long id) throws NotFound {
-		if (!purchaseRepository.findById(id).isPresent()) throw new NotFound();
+	public Purchase update(Purchase purchase, long id) throws ConflictException {
+		if (!purchaseRepository.findById(id).isPresent()) throw new ConflictException();
 
 		return purchaseRepository.save(purchase);
 	}

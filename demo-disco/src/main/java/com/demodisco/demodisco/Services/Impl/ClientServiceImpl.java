@@ -3,6 +3,7 @@ package com.demodisco.demodisco.Services.Impl;
 import com.demodisco.demodisco.Entities.Client;
 import com.demodisco.demodisco.Entities.Vinilo;
 import com.demodisco.demodisco.Exceptions.BadRequest;
+import com.demodisco.demodisco.Exceptions.ConflictException;
 import com.demodisco.demodisco.Exceptions.NotFound;
 import com.demodisco.demodisco.Repositories.ClientRepository;
 import com.demodisco.demodisco.Services.ClientService;
@@ -20,10 +21,10 @@ public class ClientServiceImpl implements ClientService {
 	}
 
 	@Override
-	public Client save(Client client) throws BadRequest {
+	public Client save(Client client) throws ConflictException {
 		Optional<Client> clientOptional = clientRepository.findById(client.getId());
 		if (clientOptional.isPresent())
-			throw new BadRequest();
+			throw new ConflictException();
 		Client client1 = new Client();
 
 		client1.setId(client.getId());
@@ -56,8 +57,8 @@ public class ClientServiceImpl implements ClientService {
 	}
 
 	@Override
-	public Client update(Client client, long id) throws NotFound, BadRequest {
-		if (!clientRepository.findById(id).isPresent()) throw new NotFound();
+	public Client update(Client client, long id) throws ConflictException {
+		if (!clientRepository.findById(id).isPresent()) throw new ConflictException();
 
 		return clientRepository.save(client);
 	}

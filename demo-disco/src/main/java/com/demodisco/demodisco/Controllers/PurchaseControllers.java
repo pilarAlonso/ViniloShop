@@ -2,6 +2,7 @@ package com.demodisco.demodisco.Controllers;
 
 import com.demodisco.demodisco.Entities.Purchase;
 import com.demodisco.demodisco.Exceptions.BadRequest;
+import com.demodisco.demodisco.Exceptions.ConflictException;
 import com.demodisco.demodisco.Exceptions.NotFound;
 import com.demodisco.demodisco.Services.PurchaseService;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +20,7 @@ public class PurchaseControllers {
 	}
 
 	@PutMapping("/purchases/{id}")
-	public Purchase update(@Valid @RequestBody Purchase purchase, @PathVariable int id) throws NotFound {
+	public Purchase update(@Valid @RequestBody Purchase purchase, @PathVariable int id) throws NotFound, ConflictException {
 		return purchaseService.update(purchase, id);
 
 	}
@@ -49,7 +50,7 @@ public class PurchaseControllers {
 	}
 
 	@PostMapping("/purchases")
-	public Purchase save(@Valid @RequestBody Purchase purchase) throws BadRequest {
+	public Purchase save(@Valid @RequestBody Purchase purchase) throws BadRequest, ConflictException {
 		return purchaseService.save(purchase);
 	}
 

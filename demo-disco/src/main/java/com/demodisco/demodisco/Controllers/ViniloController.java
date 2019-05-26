@@ -2,6 +2,7 @@ package com.demodisco.demodisco.Controllers;
 
 import com.demodisco.demodisco.Entities.Vinilo;
 import com.demodisco.demodisco.Exceptions.BadRequest;
+import com.demodisco.demodisco.Exceptions.ConflictException;
 import com.demodisco.demodisco.Exceptions.NotFound;
 import com.demodisco.demodisco.Models.VinilModelSnapshot;
 import com.demodisco.demodisco.Services.VinilSnapshotService;
@@ -24,7 +25,7 @@ public class ViniloController {
 	}
 
 	@PutMapping("/vinilos/{id}")
-	public Vinilo update(@Valid @RequestBody Vinilo vinilo, @PathVariable int id) throws NotFound {
+	public Vinilo update(@Valid @RequestBody Vinilo vinilo, @PathVariable int id) throws NotFound, ConflictException {
 		return viniloService.update(vinilo, id);
 
 	}
@@ -54,7 +55,7 @@ public class ViniloController {
 	}
 
 	@PostMapping("/vinilos")
-	public Vinilo save(@RequestBody Vinilo vinilo) throws BadRequest {
+	public Vinilo save(@RequestBody Vinilo vinilo) throws BadRequest, ConflictException {
 		return viniloService.save(vinilo);
 	}
 

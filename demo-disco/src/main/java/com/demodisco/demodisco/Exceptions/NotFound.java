@@ -5,6 +5,6 @@ import org.springframework.data.crossstore.ChangeSetPersister;
 
 public class NotFound extends NotFoundException {
 	public NotFound() {
-		super("La entidad no ha sido encontrada");
+		super("Los datos requeridos no han sido encontrados");
 	}
 }
