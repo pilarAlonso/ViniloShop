@@ -42,13 +42,13 @@ public class ViniloServiceImpl implements ViniloService {
 
 	@Override
 	public Optional<Vinilo> findOne(long id) throws NotFound {
-		if (!viniloRepository.findById(id).isPresent()) throw new NotFound();
+		viniloRepository.findById(id).orElseThrow(()->new NotFound());
 		return viniloRepository.findById(id);
 	}
 
 	@Override
-	public Vinilo update(Vinilo vinilo, long id) throws ConflictException {
-		if (!viniloRepository.findById(id).isPresent()) throw new ConflictException();
+	public Vinilo update(Vinilo vinilo, long id) throws ConflictException, NotFound {
+		viniloRepository.findById(id).orElseThrow(()->new NotFound());
 
 		return viniloRepository.save(vinilo);
 	}
@@ -63,8 +63,7 @@ public class ViniloServiceImpl implements ViniloService {
 
 	@Override
 	public void delete(long id) throws NotFound {
-		Optional<Vinilo> ViniloOptional = viniloRepository.findById(id);
-		if (!ViniloOptional.isPresent()) throw new NotFound();
+		viniloRepository.findById(id).orElseThrow(()->new NotFound());
          viniloRepository.deleteById(id);
 	}
 

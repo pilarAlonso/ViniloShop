@@ -7,6 +7,7 @@ import com.demodisco.demodisco.Exceptions.NotFound;
 import com.demodisco.demodisco.Repositories.BandRepository;
 import com.demodisco.demodisco.Services.BandService;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.List;
 import java.util.Optional;
@@ -41,8 +42,7 @@ public class BandServiceImpl implements BandService {
 
 	@Override
 	public void delete(long id) throws NotFound {
-		Optional<Band> optionalBand = bandRepository.findById(id);
-		if (!optionalBand.isPresent()) throw new NotFound();
+		bandRepository.findById(id).orElseThrow(()->new NotFound());
 		bandRepository.deleteById(id);
 
 
@@ -50,13 +50,13 @@ public class BandServiceImpl implements BandService {
 
 	@Override
 	public Optional<Band> findOne(long id) throws NotFound {
-		if (!bandRepository.findById(id).isPresent()) throw new NotFound();
+		bandRepository.findById(id).orElseThrow(()->new NotFound());
 		return bandRepository.findById(id);
 	}
 
 	@Override
-	public Band update(Band band, long id) throws ConflictException {
-		if (!bandRepository.findById(id).isPresent()) throw new ConflictException();
+	public Band update(Band band, long id) throws ConflictException, NotFound {
+		bandRepository.findById(id).orElseThrow(()->new NotFound());
 
 		return bandRepository.save(band);
 	}

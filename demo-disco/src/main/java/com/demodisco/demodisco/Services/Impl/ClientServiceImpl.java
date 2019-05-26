@@ -44,21 +44,20 @@ public class ClientServiceImpl implements ClientService {
 
 	@Override
 	public void delete(long id) throws NotFound {
-		Optional<Client> ViniloptionalClient = clientRepository.findById(id);
-		if (!ViniloptionalClient.isPresent()) throw new NotFound();
+		clientRepository.findById(id).orElseThrow(()->new NotFound());
 		clientRepository.deleteById(id);
 
 	}
 
 	@Override
 	public Optional<Client> findOne(long id) throws NotFound {
-		if (!clientRepository.findById(id).isPresent()) throw new NotFound();
+		clientRepository.findById(id).orElseThrow(()->new NotFound());
 		return clientRepository.findById(id);
 	}
 
 	@Override
-	public Client update(Client client, long id) throws ConflictException {
-		if (!clientRepository.findById(id).isPresent()) throw new ConflictException();
+	public Client update(Client client, long id) throws  NotFound {
+	clientRepository.findById(id).orElseThrow(()->new NotFound());
 
 		return clientRepository.save(client);
 	}

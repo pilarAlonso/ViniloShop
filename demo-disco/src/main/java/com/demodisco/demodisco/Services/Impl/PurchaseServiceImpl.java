@@ -27,8 +27,7 @@ public class PurchaseServiceImpl implements PurchaseService {
 
 	@Override
 	public void delete(long id) throws NotFound {
-		Optional<Purchase> purchaseOptional = purchaseRepository.findById(id);
-		if (!purchaseOptional.isPresent()) throw new NotFound();
+		purchaseRepository.findById(id).orElseThrow(()->new NotFound());
 		purchaseRepository.deleteById(id);
 
 	}
@@ -50,13 +49,13 @@ public class PurchaseServiceImpl implements PurchaseService {
 
 	@Override
 	public Optional<Purchase> findOne(long id) throws NotFound {
-		if (!purchaseRepository.findById(id).isPresent()) throw new NotFound();
+		purchaseRepository.findById(id).orElseThrow(()->new NotFound());
 		return purchaseRepository.findById(id);
 	}
 
 	@Override
-	public Purchase update(Purchase purchase, long id) throws ConflictException {
-		if (!purchaseRepository.findById(id).isPresent()) throw new ConflictException();
+	public Purchase update(Purchase purchase, long id) throws ConflictException, NotFound {
+		purchaseRepository.findById(id).orElseThrow(()->new NotFound());
 
 		return purchaseRepository.save(purchase);
 	}
