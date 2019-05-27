@@ -2,6 +2,7 @@ package com.demodisco.demodisco.Entities;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 
@@ -16,6 +17,20 @@ public class Client {
 	private Set<Vinilo> viniloSet;
 	@OneToMany(cascade = CascadeType.ALL)
 	private List<Purchase> purchaseList;
+
+	public void addVinil(Vinilo vinilo) {
+		viniloSet.add(vinilo);
+	}
+
+	public void buyVinil(Client client, Vinilo vinilo, int quantity) {
+		addVinil(vinilo);
+		Purchase buyVinil = new Purchase();
+		buyVinil.setQuantity(quantity);
+		buyVinil.setDate(LocalDateTime.now());
+		buyVinil.setClient(client);
+		purchaseList.add(buyVinil);
+
+	}
 
 	public Client() {
 	}

@@ -10,10 +10,9 @@ import java.util.Map;
 
 public class VinilModelSnapshot {
 
-
 	private List<Vinilo> fiveMostSold = new ArrayList<>();
 	private long vinilosNumber;
-	Map<Size, Long> viniloLongMap=new HashMap<>();
+	Map<Size, Long> viniloLongMap = new HashMap<>();
 
 	public Map<Size, Long> getViniloLongMap() {
 		return viniloLongMap;
@@ -38,7 +37,6 @@ public class VinilModelSnapshot {
 	public void setVinilosNumber(long vinilosNumber) {
 		this.vinilosNumber = vinilosNumber;
 	}
-
 
 	public VinilModelSnapshot() {
 	}

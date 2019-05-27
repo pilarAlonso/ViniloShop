@@ -1,15 +1,13 @@
 package com.demodisco.demodisco.Entities;
 
-import org.hibernate.annotations.Cascade;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Entity
 public class Vinilo {
@@ -27,6 +25,19 @@ public class Vinilo {
 	private Band band;
 	@ManyToMany(mappedBy = "viniloSet")
 	private List<Client> clientSet = new ArrayList<>();
+	@OneToMany(mappedBy = "vinilo")
+	private List<Purchase>purchaseList=new ArrayList<>();
+	public int getQuantityPurchase(){
+		 return purchaseList.stream().mapToInt(Purchase::getQuantity).sum();
+	}
+
+	public List<Purchase> getPurchaseList() {
+		return purchaseList;
+	}
+
+	public void setPurchaseList(List<Purchase> purchaseList) {
+		this.purchaseList = purchaseList;
+	}
 
 	public Vinilo() {
 	}

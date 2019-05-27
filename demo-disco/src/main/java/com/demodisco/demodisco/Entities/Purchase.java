@@ -20,6 +20,16 @@ public class Purchase {
 	private int quantity;
 	@ManyToOne(cascade = CascadeType.PERSIST)
 	private Client client;
+	@ManyToOne
+	private Vinilo vinilo;
+
+	public Vinilo getVinilo() {
+		return vinilo;
+	}
+
+	public void setVinilo(Vinilo vinilo) {
+		this.vinilo = vinilo;
+	}
 
 	public Purchase() {
 	}

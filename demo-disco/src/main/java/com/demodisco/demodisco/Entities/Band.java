@@ -20,18 +20,23 @@ public class Band {
 	@OneToMany(fetch = FetchType.LAZY, cascade = javax.persistence.CascadeType.REMOVE)
 	private List<Vinilo> viniloList;
 
+
+
+	public void addVinil(Vinilo vinilo) {
+		viniloList.add(vinilo);
+
+	}
+
 	public Band() {
 	}
 
 	public List<Vinilo> mostSold() {
 
-		Comparator<Vinilo> comparador1 = (x, y) -> Integer.compare(y.getClientSet().size(), x.getClientSet().size());
-
-		return viniloList.stream()
-
-						 .sorted(comparador1)
-
-						 .collect(Collectors.toList());
+		Comparator<Vinilo> comparador1 = (p1, p2) -> Integer.compare(p1.getQuantityPurchase(), p2.getQuantityPurchase());
+		List<Vinilo> viniloLista = viniloList.stream()
+										.sorted(comparador1)
+										.collect(Collectors.toList());
+		return viniloLista;
 
 	}
 

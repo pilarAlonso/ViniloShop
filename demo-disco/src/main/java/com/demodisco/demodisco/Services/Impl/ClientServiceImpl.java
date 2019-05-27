@@ -2,10 +2,10 @@ package com.demodisco.demodisco.Services.Impl;
 
 import com.demodisco.demodisco.Entities.Client;
 import com.demodisco.demodisco.Entities.Vinilo;
-import com.demodisco.demodisco.Exceptions.BadRequest;
 import com.demodisco.demodisco.Exceptions.ConflictException;
 import com.demodisco.demodisco.Exceptions.NotFound;
 import com.demodisco.demodisco.Repositories.ClientRepository;
+import com.demodisco.demodisco.Repositories.ViniloRepository;
 import com.demodisco.demodisco.Services.ClientService;
 import org.springframework.stereotype.Service;
 
@@ -15,13 +15,15 @@ import java.util.Optional;
 @Service
 public class ClientServiceImpl implements ClientService {
 	private  final ClientRepository clientRepository;
+	private final ViniloRepository viniloRepository;
 
-	public ClientServiceImpl(ClientRepository clientRepository) {
+	public ClientServiceImpl(ClientRepository clientRepository, ViniloRepository viniloRepository) {
 		this.clientRepository = clientRepository;
+		this.viniloRepository = viniloRepository;
 	}
 
 	@Override
-	public Client save(Client client) throws ConflictException {
+	public Client save(Client client) throws Exception {
 		Optional<Client> clientOptional = clientRepository.findById(client.getId());
 		if (clientOptional.isPresent())
 			throw new ConflictException();
@@ -30,6 +32,7 @@ public class ClientServiceImpl implements ClientService {
 		client1.setId(client.getId());
 		client1.setName(client.getName());
 		client1.setPurchaseList(client.getPurchaseList());
+		if(!client1.getPurchaseList().isEmpty())throw new Exception("la lista de compras de un cliente no puede contener datos en esta operación");
 		client1.setViniloSet(client.getViniloSet());
 
 
@@ -59,7 +62,19 @@ public class ClientServiceImpl implements ClientService {
 	public Client update(Client client, long id) throws  NotFound {
 	clientRepository.findById(id).orElseThrow(()->new NotFound());
 
+
+	return clientRepository.save(client);
+	}
+
+	@Override
+	public Client buy(long id2, long id,int quantity) throws NotFound {
+		viniloRepository.findById(id).orElseThrow(()->new NotFound());
+		clientRepository.findById(id2).orElseThrow(()->new NotFound());
+		Vinilo vinilo=viniloRepository.findById(id).get();
+		Client client=clientRepository.findById(id2).get();
+		client.buyVinil(client, vinilo, quantity);
 		return clientRepository.save(client);
+
 	}
 
 }
