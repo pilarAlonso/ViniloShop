@@ -22,13 +22,14 @@ public class Client {
 		viniloSet.add(vinilo);
 	}
 
-	public void buyVinil(Client client, Vinilo vinilo, int quantity) {
+	public Purchase buyVinil(Client client, Vinilo vinilo, int quantity) {
 		addVinil(vinilo);
 		Purchase buyVinil = new Purchase();
 		buyVinil.setQuantity(quantity);
 		buyVinil.setDate(LocalDateTime.now());
 		buyVinil.setClient(client);
 		purchaseList.add(buyVinil);
+		return buyVinil;
 
 	}
 

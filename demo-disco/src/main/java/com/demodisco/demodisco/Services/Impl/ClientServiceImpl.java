@@ -5,6 +5,7 @@ import com.demodisco.demodisco.Entities.Vinilo;
 import com.demodisco.demodisco.Exceptions.ConflictException;
 import com.demodisco.demodisco.Exceptions.NotFound;
 import com.demodisco.demodisco.Repositories.ClientRepository;
+import com.demodisco.demodisco.Repositories.PurchaseRepository;
 import com.demodisco.demodisco.Repositories.ViniloRepository;
 import com.demodisco.demodisco.Services.ClientService;
 import org.springframework.stereotype.Service;
@@ -16,10 +17,12 @@ import java.util.Optional;
 public class ClientServiceImpl implements ClientService {
 	private  final ClientRepository clientRepository;
 	private final ViniloRepository viniloRepository;
+	private final PurchaseRepository purchaseRepository;
 
-	public ClientServiceImpl(ClientRepository clientRepository, ViniloRepository viniloRepository) {
+	public ClientServiceImpl(ClientRepository clientRepository, ViniloRepository viniloRepository, PurchaseRepository purchaseRepository) {
 		this.clientRepository = clientRepository;
 		this.viniloRepository = viniloRepository;
+		this.purchaseRepository = purchaseRepository;
 	}
 
 	@Override
@@ -72,7 +75,7 @@ public class ClientServiceImpl implements ClientService {
 		clientRepository.findById(id2).orElseThrow(()->new NotFound());
 		Vinilo vinilo=viniloRepository.findById(id).get();
 		Client client=clientRepository.findById(id2).get();
-		client.buyVinil(client, vinilo, quantity);
+		purchaseRepository.save(client.buyVinil(client, vinilo, quantity));
 		return clientRepository.save(client);
 
 	}

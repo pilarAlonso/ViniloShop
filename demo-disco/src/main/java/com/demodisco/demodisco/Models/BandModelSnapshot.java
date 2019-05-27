@@ -6,14 +6,14 @@ import com.demodisco.demodisco.Entities.Vinilo;
 import java.util.List;
 
 public class BandModelSnapshot {
-	private long numberGroup;
+	private Long numberGroup;
 	private List<Band> fiveMostSoldGroup;
 
-	public long getNumberGroup() {
+	public Long getNumberGroup() {
 		return numberGroup;
 	}
 
-	public void setNumberGroup(long numberGroup) {
+	public void setNumberGroup(Long numberGroup) {
 		this.numberGroup = numberGroup;
 	}
 
